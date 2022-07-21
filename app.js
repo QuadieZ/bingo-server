@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const dbConnect = require('./db/dbConnect');
 const User = require('./db/models/UserModel');
+const BingoItem = require('./db/models/BingoItemModel');
 const auth = require('./auth');
 
 const app = express();
@@ -40,7 +41,6 @@ app.post("/register", (req, res) => {
 
     // hash the password
     bcrypt.hash(req.body.password, 10).then((hashedPass) => {
-        console.log("hashed", hashedPass)
         const user = new User({
             username: req.body.username,
             password: hashedPass
@@ -102,16 +102,41 @@ app.post("/login", (req, res) => {
         })
 })
 
-
-// free endpoint
-app.get("/free-endpoint", (request, response) => {
-    response.json({ message: "You are free to access me anytime" });
-});
-
 // authentication endpoint
-app.get("/auth-endpoint", auth, (request, response) => {
-    response.json({ message: "You are authorized to access me" });
+app.get("/bingo", auth, (request, response) => {
+    BingoItem.find()
+        .then((result) => {
+            response.status(200).send(result)
+        })
+        .catch((err) => {
+            res.status(404).send({
+                message: "Cannot load data",
+                err
+            })
+        })
+
 });
+
+app.post("/bingo", (req, res) => {
+    const bingoItem = new BingoItem({
+        mission: "Test",
+        isDone: false,
+        location: 'Po'
+    })
+
+    bingoItem.save().then((result) => {
+        res.status(201).send({
+            message: "Created Bingo Item",
+            result
+        });
+    })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error creating item",
+                err
+            })
+        })
+})
 
 module.exports = app;
 
