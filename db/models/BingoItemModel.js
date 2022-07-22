@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const BingoItemSchema = new mongoose.Schema({
     mission: String,
     location: String,
-    Image: String,
+    image: String,
     details: String
 })
 

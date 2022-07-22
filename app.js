@@ -135,9 +135,10 @@ app.get("/bingo", auth, (request, response) => {
 
 app.post("/bingo", (req, res) => {
     const bingoItem = new BingoItem({
-        mission: "Test",
-        isDone: false,
-        location: 'Po'
+        mission: req.body.mission,
+        location: req.body.location,
+        image: req.body.image,
+        details: req.body.details
     })
 
     bingoItem.save().then((result) => {
