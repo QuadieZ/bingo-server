@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const dbConnect = require('./db/dbConnect');
 const User = require('./db/models/UserModel');
+const UserInfo = require('./db/models/UserInfoModel')
 const BingoItem = require('./db/models/BingoItemModel');
 const auth = require('./auth');
 
@@ -47,10 +48,23 @@ app.post("/register", (req, res) => {
         })
 
         user.save().then((result) => {
-            res.status(201).send({
-                message: "User created successfully",
-                result
-            });
+            const userInfo = new UserInfo({
+                username: user.username,
+                completed: [],
+                isBingo: false
+            })
+            userInfo.save().then((result) => {
+                res.status(201).send({
+                    message: "Created Info",
+                    result
+                });
+            })
+                .catch((err) => {
+                    res.status(500).send({
+                        message: "Error creating info",
+                        err
+                    })
+                })
         })
             .catch((err) => {
                 res.status(500).send({
@@ -65,6 +79,8 @@ app.post("/register", (req, res) => {
                 err
             })
         })
+
+
 });
 
 // login endpoint
@@ -137,6 +153,22 @@ app.post("/bingo", (req, res) => {
             })
         })
 })
+
+app.get("/data", auth, (req, res) => {
+    UserInfo.findOne({ username: req.body.username })
+        .then((user) => {
+            if (!user) {
+                return res.status(500).send({
+                    message: "user not found"
+                })
+            }
+
+            res.status(200).send({
+                user
+            })
+        })
+
+});
 
 module.exports = app;
 
