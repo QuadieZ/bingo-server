@@ -186,7 +186,7 @@ app.post("/upload", (req, res) => {
         image: req.body.image
     }
 
-    cloud.uploader.upload(data.image)
+    cloud.uploader.upload(req.body.image)
         .then((result) => {
             res.status(200).send({
                 message: "success",
