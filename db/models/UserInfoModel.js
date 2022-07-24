@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const UserInfoSchema = new mongoose.Schema({
     username: String,
-    completed: [Number],
+    completed: [String],
     isBingo: Boolean
 });
 

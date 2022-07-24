@@ -59,7 +59,7 @@ app.post("/register", (req, res) => {
         user.save().then((result) => {
             const userInfo = new UserInfo({
                 username: user.username,
-                completed: [],
+                completed: ["", "", "", "", "", "", "", "", "", "", "", "Free", "", "", "", "", "", "", "", "", "", "", "", "", ""],
                 isBingo: false
             })
             userInfo.save().then((result) => {
@@ -180,24 +180,38 @@ app.get("/data", auth, (req, res) => {
 
 });
 
-// uploading images
-app.post("/upload", (req, res) => {
-    const data = {
-        image: req.body.image
-    }
+app.get("/data", auth, (req, res) => {
+    UserInfo.findOne({ username: req.body.username })
+        .then((user) => {
+            if (!user) {
+                return res.status(500).send({
+                    message: "user not found"
+                })
+            }
 
-    cloud.uploader.upload(req.body.image)
-        .then((result) => {
             res.status(200).send({
-                message: "success",
-                result,
-            });
-        }).catch((error) => {
-            res.status(500).send({
-                message: "failure",
-                error,
+                user
+            })
+        })
+
+});
+
+// update data
+app.put("/data", auth, (req, res) => {
+    UserInfo.updateOne({ username: req.body.username }, { $set: { "completed": req.body.updated } })
+        .then((result) => {
+            res.status(201).send({
+                message: "Updated",
+                result
             });
         })
-})
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating",
+                err
+            })
+        })
+
+});
 module.exports = app;
 
