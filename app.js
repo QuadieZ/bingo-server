@@ -183,5 +183,26 @@ app.put("/data", auth, (req, res) => {
         })
 
 });
+
+// uploading images
+app.post("/upload", (req, res) => {
+    const data = {
+        image: req.body.image
+    }
+
+    cloud.uploader.upload(data.image)
+        .then((result) => {
+            res.status(200).send({
+                message: "success",
+                result,
+            });
+        }).catch((error) => {
+            res.status(500).send({
+                message: "failure",
+                error,
+            });
+        })
+})
+
 module.exports = app;
 
