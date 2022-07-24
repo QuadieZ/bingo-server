@@ -35,7 +35,6 @@ app.use((req, res, next) => {
 });
 
 
-
 // body-parser config
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }))
@@ -77,8 +76,6 @@ app.post("/register", (req, res) => {
                 err
             })
         })
-
-
 });
 
 // login endpoint
@@ -156,7 +153,7 @@ app.post("/bingo", (req, res) => {
 })
 
 app.get("/data", auth, (request, response) => {
-    User.findOne({ username: req.body.username })
+    User.find()
         .then((result) => {
             response.status(200).send(result)
         })
