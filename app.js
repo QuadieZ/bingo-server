@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloud = require('cloudinary').v2;
 
 const dbConnect = require('./db/dbConnect');
 const User = require('./db/models/UserModel');
@@ -11,6 +12,12 @@ const auth = require('./auth');
 
 const app = express();
 dbConnect();
+
+cloud.config({
+    cloud_name: 'dw4rbfcmr',
+    api_key: '759775291161814',
+    api_secret: 'soaSBUmprLafVCM6s1hJZxwLxh8'
+})
 
 // Cors Error handling
 app.use((req, res, next) => {
@@ -171,5 +178,24 @@ app.get("/data", auth, (req, res) => {
 
 });
 
+// uploading images
+app.post("/upload", (req, res) => {
+    const data = {
+        image: req.body.image
+    }
+
+    cloud.uploader.upload(data.image)
+        .then((result) => {
+            res.status(200).send({
+                message: "success",
+                result,
+            });
+        }).catch((error) => {
+            res.status(500).send({
+                message: "failure",
+                error,
+            });
+        })
+})
 module.exports = app;
 
