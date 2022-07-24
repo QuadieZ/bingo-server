@@ -14,10 +14,10 @@ const app = express();
 dbConnect();
 
 cloud.config({
-    cloud_name: 'dw4rbfcmr',
-    api_key: '759775291161814',
-    api_secret: 'soaSBUmprLafVCM6s1hJZxwLxh8'
-})
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 
 // Cors Error handling
 app.use((req, res, next) => {
