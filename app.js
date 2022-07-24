@@ -180,22 +180,6 @@ app.get("/data", auth, (req, res) => {
 
 });
 
-app.get("/data", auth, (req, res) => {
-    UserInfo.findOne({ username: req.body.username })
-        .then((user) => {
-            if (!user) {
-                return res.status(500).send({
-                    message: "user not found"
-                })
-            }
-
-            res.status(200).send({
-                user
-            })
-        })
-
-});
-
 // update data
 app.put("/data", auth, (req, res) => {
     UserInfo.updateOne({ username: req.body.username }, { $set: { "completed": req.body.updated } })
