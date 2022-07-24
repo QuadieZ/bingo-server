@@ -53,7 +53,7 @@ app.post("/register", (req, res) => {
         const user = new User({
             username: req.body.username,
             password: hashedPass,
-            completed: ["", "", "", "", "", "", "", "", "", "", "", "Free", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+            completed: ["", "", "", "", "", "", "", "", "", "", "", "", "Free", "", "", "", "", "", "", "", "", "", "", "", ""],
             isBingo: false
         })
 
