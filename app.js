@@ -105,6 +105,8 @@ app.post("/login", (req, res) => {
                     res.status(200).send({
                         message: "Login Successful",
                         username: user.username,
+                        completed: user.completed,
+                        isBingo: user.isBingo,
                         token,
                     });
                 })
@@ -154,7 +156,7 @@ app.post("/bingo", (req, res) => {
 })
 
 app.get("/data", auth, (request, response) => {
-    User.find()
+    User.findOne({ username: req.body.username })
         .then((result) => {
             response.status(200).send(result)
         })
