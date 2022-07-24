@@ -10,7 +10,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Password is requried"],
         unique: false
-    }
+    },
+    completed: [String],
+    isBingo: Boolean
 });
 
 module.exports = mongoose.model.Users || mongoose.model("Users", UserSchema);

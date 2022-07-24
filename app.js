@@ -165,7 +165,7 @@ app.post("/bingo", (req, res) => {
 })
 
 app.get("/data", auth, (req, res) => {
-    UserInfo.findOne({ username: req.body.username })
+    User.findOne({ username: req.body.username })
         .then((user) => {
             if (!user) {
                 return res.status(500).send({
