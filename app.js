@@ -53,27 +53,16 @@ app.post("/register", (req, res) => {
     bcrypt.hash(req.body.password, 10).then((hashedPass) => {
         const user = new User({
             username: req.body.username,
-            password: hashedPass
+            password: hashedPass,
+            completed: ["", "", "", "", "", "", "", "", "", "", "", "Free", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+            isBingo: false
         })
 
         user.save().then((result) => {
-            const userInfo = new UserInfo({
-                username: user.username,
-                completed: ["", "", "", "", "", "", "", "", "", "", "", "Free", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-                isBingo: false
-            })
-            userInfo.save().then((result) => {
-                res.status(201).send({
-                    message: "Created Info",
-                    result
-                });
-            })
-                .catch((err) => {
-                    res.status(500).send({
-                        message: "Error creating info",
-                        err
-                    })
-                })
+            res.status(201).send({
+                message: "Created Info",
+                result
+            });
         })
             .catch((err) => {
                 res.status(500).send({
