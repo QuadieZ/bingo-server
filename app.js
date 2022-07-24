@@ -164,17 +164,15 @@ app.post("/bingo", (req, res) => {
         })
 })
 
-app.get("/data", auth, (req, res) => {
-    User.findOne({ username: req.body.username })
-        .then((user) => {
-            if (!user) {
-                return res.status(500).send({
-                    message: "user not found"
-                })
-            }
-
-            res.status(200).send({
-                user
+app.get("/data", auth, (request, response) => {
+    User.find()
+        .then((result) => {
+            response.status(200).send(result)
+        })
+        .catch((err) => {
+            res.status(404).send({
+                message: "Cannot load data",
+                err
             })
         })
 
