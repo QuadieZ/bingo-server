@@ -168,7 +168,7 @@ app.get("/data", auth, (request, response) => {
 
 // update data
 app.put("/data", auth, (req, res) => {
-    UserInfo.updateOne({ username: req.body.username }, { $set: { "completed": req.body.updated } })
+    User.updateOne({ username: req.body.username }, { $set: { "completed": req.body.updated } })
         .then((result) => {
             res.status(201).send({
                 message: "Updated",
