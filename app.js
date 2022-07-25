@@ -127,7 +127,6 @@ app.get("/bingo", auth, (request, response) => {
                 err
             })
         })
-
 });
 
 app.post("/bingo", (req, res) => {
@@ -203,6 +202,21 @@ app.post("/upload", (req, res) => {
             });
         })
 })
+
+// get all data for gallery
+app.get("/gallery", (req, res) => {
+    User.find({}, { completed: 1, isBingo: 1, _id: 0 })
+        .then((result) => {
+            res.status(200).send(result)
+        })
+        .catch((err) => {
+            res.status(404).send({
+                message: "Cannot load data",
+                err
+            })
+        })
+})
+
 
 module.exports = app;
 
