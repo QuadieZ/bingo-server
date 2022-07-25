@@ -205,7 +205,7 @@ app.post("/upload", (req, res) => {
 
 // get all data for gallery
 app.get("/gallery", (req, res) => {
-    User.find({}, { completed: 1, isBingo: 1, _id: 0 })
+    User.find({}, { username: 1, completed: 1, isBingo: 1, _id: 0 })
         .then((result) => {
             res.status(200).send(result)
         })
