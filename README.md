@@ -1,6 +1,8 @@
 # Bingo Scavenger Hunt
 A scavenger hunt game where user can upload their photos from different prompt to complete the bingo
 
+front-end repo: https://github.com/QuadieZ/bingo-frontend
+
 ## Stack
 - React
 - Chakra UI
